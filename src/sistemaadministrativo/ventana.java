@@ -2,7 +2,12 @@ package sistemaadministrativo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -287,6 +292,39 @@ public class ventana extends JFrame {
         JScrollPane barraTablaClientes = new JScrollPane(tablaClientes);
         barraTablaClientes.setBounds(10, 10, 300, 300);
         panelControlClientes.add(barraTablaClientes);
+        
+        JButton btnCargarArchivo = new JButton("Buscar archivo csv");
+        btnCargarArchivo.setBounds(350, 10, 200, 25);
+        panelControlClientes.add(btnCargarArchivo);
+        ActionListener buscarArchivo = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                File archivoSeleccionado; 
+                JFileChooser ventanaSeleccion = new JFileChooser();
+                ventanaSeleccion.showOpenDialog(null);
+                archivoSeleccionado = ventanaSeleccion.getSelectedFile();
+                System.out.println("La ubicacion del archivo es " + archivoSeleccionado.getPath());
+                
+            }
+        };
+        btnCargarArchivo.addActionListener(buscarArchivo);
+    }
+    // preguntar sobre el error a la hora de abrir el csv
+    public void leerArchivoCSV(String ruta){
+        try{
+            BufferedReader archivoTemporal = new BufferedReader(new FileReader(ruta)); 
+            String LineaLeida = ""; 
+            while(LineaLeida != null){
+                LineaLeida = archivoTemporal.readLine();
+                if(LineaLeida != null){
+                    System.out.println(LineaLeida);
+                }
+            }
+            archivoTemporal.close();
+        }catch(IOException error){
+            JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo CSV");
+        
+        }
     }
 }
 

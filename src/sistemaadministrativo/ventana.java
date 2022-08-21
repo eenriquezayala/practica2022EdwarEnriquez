@@ -23,18 +23,19 @@ public class ventana extends JFrame {
     JPanel panelInicioSesion = new JPanel();
     JPanel panelControl = new JPanel();
     JPanel panelCrearUsuario = new JPanel();
-    int control = 2; 
+    int control = 2;
     cliente clientes[] = new cliente[100];
-    int controlCliente = 0; 
+    int controlCliente = 0;
     JPanel panelControlClientes = new JPanel();
-    
+    int controlClientes =2; 
+
     //Met. constructor
     public ventana() {
         objetos();
         crearAdmin();
         crearClientes();
     }
-    
+
     public void crearAdmin() {
         usuSistema[0] = new usuario();
         usuSistema[0].nombreUsuario = "admin";
@@ -46,14 +47,14 @@ public class ventana extends JFrame {
         usuSistema[1].nombre = "pedro";
         usuSistema[1].contra = "122";
     }
-    
-    public void crearClientes(){
+
+    public void crearClientes() {
         clientes[0] = new cliente();
         clientes[0].nombre = "cliente 1";
         clientes[0].edad = 22;
         clientes[0].genero = 'M';
         clientes[0].nit = 150;
-        
+
         clientes[1] = new cliente();
         clientes[1].nombre = "cliente 2";
         clientes[1].edad = 30;
@@ -261,71 +262,86 @@ public class ventana extends JFrame {
             usuSistema[posicion].contra = contra;
             control++;
             JOptionPane.showMessageDialog(null, "Usuario registrado exitosamete, total de usuarios " + control);
-            
-        }else {
+
+        } else {
             JOptionPane.showMessageDialog(null, "No se puede registrar más usuarios");
         }
     }
-    
-    public void panelControlCli(){
+
+    public void panelControlCli() {
         this.getContentPane().add(panelControlClientes);
         panelControlClientes.setLayout(null);
         this.setSize(900, 600);
         this.setTitle("Administración de clientes");
         panelControl.setVisible(false);
-        
+
         DefaultTableModel datosTabla = new DefaultTableModel();
         datosTabla.addColumn("Nombre");
         datosTabla.addColumn("Edad");
         datosTabla.addColumn("Genero");
         datosTabla.addColumn("Nit");
-        
+
         for (int i = 0; i < 10; i++) {
             if (clientes[i] != null) {
-                String fila [] = {clientes[i].nombre, String.valueOf(clientes[i].edad), String.valueOf(clientes[i].genero), String.valueOf(clientes[i].nit)};
-                datosTabla.addRow(fila);  
+                String fila[] = {clientes[i].nombre, String.valueOf(clientes[i].edad), String.valueOf(clientes[i].genero), String.valueOf(clientes[i].nit)};
+                datosTabla.addRow(fila);
             }
         }
 
-        
         JTable tablaClientes = new JTable(datosTabla);
         JScrollPane barraTablaClientes = new JScrollPane(tablaClientes);
         barraTablaClientes.setBounds(10, 10, 300, 300);
         panelControlClientes.add(barraTablaClientes);
-        
+
         JButton btnCargarArchivo = new JButton("Buscar archivo csv");
         btnCargarArchivo.setBounds(350, 10, 200, 25);
         panelControlClientes.add(btnCargarArchivo);
         ActionListener buscarArchivo = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                File archivoSeleccionado; 
+                File archivoSeleccionado;
                 JFileChooser ventanaSeleccion = new JFileChooser();
                 ventanaSeleccion.showOpenDialog(null);
                 archivoSeleccionado = ventanaSeleccion.getSelectedFile();
                 System.out.println("La ubicacion del archivo es " + archivoSeleccionado.getPath());
-                
+                leerArchivoCSV(archivoSeleccionado.getPath());
             }
         };
         btnCargarArchivo.addActionListener(buscarArchivo);
     }
-    // preguntar sobre el error a la hora de abrir el csv
-    public void leerArchivoCSV(String ruta){
-        try{
-            BufferedReader archivoTemporal = new BufferedReader(new FileReader(ruta)); 
-            String LineaLeida = ""; 
-            while(LineaLeida != null){
-                LineaLeida = archivoTemporal.readLine();
-                if(LineaLeida != null){
-                    System.out.println(LineaLeida);
+
+    public void leerArchivoCSV(String ruta) {
+        try {
+            BufferedReader archivoTemporal = new BufferedReader(new FileReader(ruta));
+            String lineaLeida = "";
+            while (lineaLeida != null) {
+                lineaLeida = archivoTemporal.readLine();
+                if (lineaLeida != null) {
+                    String datosSeparados[] = lineaLeida.split(",");
+                                       
+                    int posicion = 0;
+                    if (controlClientes < 100) {
+                        for (int i = 0; i < 99; i++) {
+                            if (clientes[i] == null) {
+                                posicion = i;
+                                break;
+                            }
+                        }
+                        clientes[posicion] = new cliente();
+                        clientes[posicion].nombre = datosSeparados[0];
+                        clientes[posicion].edad = Integer.parseInt(datosSeparados[1]);
+                        clientes[posicion].genero = datosSeparados[2].charAt(0);
+                        clientes[posicion].nit = Integer.parseInt(datosSeparados[3]);
+                        controlClientes++;                       
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se puede registrar más clientes");
+                    }
                 }
             }
+            JOptionPane.showMessageDialog(null, "Cliente registrado exitosamete, total de clientes " + controlClientes);
             archivoTemporal.close();
-        }catch(IOException error){
+        } catch (IOException error) {
             JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo CSV");
-        
         }
     }
 }
-
-                                       

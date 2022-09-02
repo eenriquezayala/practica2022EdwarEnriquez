@@ -420,12 +420,12 @@ public class ventana extends JFrame {
         try{
             ordenar();
             PrintWriter escribirCSS = new PrintWriter("reportes/estilo.css","UTF-8");
-            escribirCSS.print("html { font-size: 20px; font-family: 'Open Sans', sans-serif; }");
+            escribirCSS.print("html {   font-size: 20px; font-family: 'Open Sans', sans-serif; }");
             escribirCSS.print("h1 { font-size: 60px; text-align: center; }");
-            escribirCSS.print("p, li { font-size: 16px; line-beight: 2; letter-spacing: 1px; }");
-            escribirCSS.print("table { table-layout: fixed; width:250px;} td{border: 1px solid black; width: 190px; word-wrap: break-word; }");
+            escribirCSS.print("p, li {   font-size: 16px;   line-height: 2;   letter-spacing: 1px; }");
+            escribirCSS.print("table { table-layout: fixed;   width:250px;}   td{border: 1px solid black; width: 190px;  word-wrap: break-word}");
             escribirCSS.print("html { background-color: #00539F; }");
-            escribirCSS.print("body { width: 970px; margin: 0 auto; background-color #FF9500; padding: 0 20px 20px 20px; border: 5; }");
+            escribirCSS.print("body { width: 970px; margin: 0 auto; background-color: #FF9500; padding: 0 20px 20px 20px; border: 5px solid black; }");
             escribirCSS.print("h1 { margin: 0; padding: 20px 0; color: #00539F; text-shadow: 3px 3px 1px black; }");
             escribirCSS.close();
             
@@ -585,12 +585,7 @@ public class ventana extends JFrame {
         JScrollPane barraTablaProductos = new JScrollPane(tablaProductos);
         barraTablaProductos.setBounds(10, 10, 300, 100);
         panelControlProductos.add(barraTablaProductos);
-        
-        //creación de grafico de columnas 
-        // rango 1 de 18 - 30
-        // rango 2 de 31 - 45
-        // rango 3 de 45 en adelante
-     
+            
         DefaultCategoryDataset datos2 = new DefaultCategoryDataset();
         datos2.addValue(rangoPrecio1(), "250-350", "Precio");
         datos2.addValue(rangoPrecio2(), "356-550", "Precio");
@@ -615,7 +610,7 @@ public class ventana extends JFrame {
                 if(archivoSeleccionado == null){
                     JOptionPane.showMessageDialog(null, "No existe la ruta");
                 }else{
-                    leerArchivoCSV(archivoSeleccionado.getPath());
+                    leerArchivoCSVProdu(archivoSeleccionado.getPath());
                     panelControlProductos.setVisible(false);
                     panelControlProdu();
                 }
@@ -706,12 +701,12 @@ public class ventana extends JFrame {
         try{
             ordenarProdu();
             PrintWriter escribirCSS = new PrintWriter("reportess/estilo.css","UTF-8");
-            escribirCSS.print("html { font-size: 20px; font-family: 'Open Sans', sans-serif; }");
+            escribirCSS.print("html {   font-size: 20px; font-family: 'Open Sans', sans-serif; }");
             escribirCSS.print("h1 { font-size: 60px; text-align: center; }");
-            escribirCSS.print("p, li { font-size: 16px; line-beight: 2; letter-spacing: 1px; }");
-            escribirCSS.print("table { table-layout: fixed; width:250px;} td{border: 1px solid black; width: 190px; word-wrap: break-word; }");
+            escribirCSS.print("p, li {   font-size: 16px;   line-height: 2;   letter-spacing: 1px; }");
+            escribirCSS.print("table { table-layout: fixed;   width:250px;}   td{border: 1px solid black; width: 190px;  word-wrap: break-word}");
             escribirCSS.print("html { background-color: #00539F; }");
-            escribirCSS.print("body { width: 970px; margin: 0 auto; background-color #FF9500; padding: 0 20px 20px 20px; border: 5; }");
+            escribirCSS.print("body { width: 970px; margin: 0 auto; background-color: #FF9500; padding: 0 20px 20px 20px; border: 5px solid black; }");
             escribirCSS.print("h1 { margin: 0; padding: 20px 0; color: #00539F; text-shadow: 3px 3px 1px black; }");
             escribirCSS.close();
             
